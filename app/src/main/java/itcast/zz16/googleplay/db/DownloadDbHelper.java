@@ -52,8 +52,8 @@ public class DownloadDbHelper {
      */
     public void insertOrUpdate(DownloadInfo downloadInfo) {
 
-        downloadInfo = getDownloadInfo(downloadInfo.getId());
-        if (downloadInfo == null) {
+        DownloadInfo temp = getDownloadInfo(downloadInfo.getId());
+        if (temp == null) {
             downloadInfoDao.insert(downloadInfo);
         } else {
             downloadInfoDao.update(downloadInfo);

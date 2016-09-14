@@ -52,6 +52,7 @@ public class DetailFragment extends BaseFragment {
     FrameLayout detailDes;
     private AppInfo appInfo;
     private String packageName;
+    private DetailBottomHolder detailBottomHolder;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -60,6 +61,7 @@ public class DetailFragment extends BaseFragment {
         packageName =   bundle.getString("packageName");
         show();//请求网络数据
         setHasOptionsMenu(true);// 使用菜单
+
     }
 
     @Override
@@ -106,10 +108,17 @@ public class DetailFragment extends BaseFragment {
 
 
         //下载
-        DetailBottomHolder detailBottomHolder = new DetailBottomHolder();// initView
+        // initView
+        detailBottomHolder = new DetailBottomHolder();
         detailBottomHolder.setData(appInfo);
         bottomLayout.addView(detailBottomHolder.getContentView());
         return view;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        detailBottomHolder.stopObserver();
     }
 
     @Override

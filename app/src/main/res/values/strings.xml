@@ -29,6 +29,11 @@
     <string name="app_detail_introduction">简介</string>
     <string name="action_favorites">收藏</string>
     <string name="action_share">分享</string>
+    <string name="app_state_download">下载</string>
+    <string name="app_state_paused">暂停</string>
+    <string name="app_state_error">错误</string>
+    <string name="app_state_waiting">等待下载</string>
+    <string name="app_state_downloaded">下载完成</string>
 
     <string-array name="tab_names">
         <item>首页</item>

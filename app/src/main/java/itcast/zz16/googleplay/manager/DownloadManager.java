@@ -277,9 +277,9 @@ public class DownloadManager {
         }
     }
 
-    private List<DownloadObserver> observers = new ArrayList<>();
+//    private List<DownloadObserver> observers = new ArrayList<>();
 
-    public void addObserver(DownloadObserver observer) {
+   /* public void addObserver(DownloadObserver observer) {
         if (observer == null) {
             throw new NullPointerException("observer can't be null, please check it again!");
         }
@@ -289,12 +289,12 @@ public class DownloadManager {
         }
 
         observers.add(observer);
-    }
+    }*/
 
     public interface DownloadObserver {
 
-        public void onDownloadStateChanged(DownloadInfo info);
+        void onDownloadStateChanged(DownloadInfo info);
 
-        public void onDownloadProgressed(DownloadInfo info);
+        void onDownloadProgressed(DownloadInfo info);
     }
 }

@@ -17,7 +17,7 @@ import android.view.View;
  */
 public abstract class BaseHolder<Data> {
     public View contentView;
-    private Data data;
+    protected Data data;
 
     public BaseHolder() {
         this.contentView = initView();
