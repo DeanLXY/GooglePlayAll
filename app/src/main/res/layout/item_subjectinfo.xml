@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:itcast="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:paddingLeft="9dp"
+    android:paddingRight="9dp">
+
+
+    <RelativeLayout
+
+        android:layout_width="match_parent"
+
+        android:layout_height="wrap_content"
+
+
+        android:background="@drawable/list_item_bg">
+
+        <itcast.zz16.googleplay.view.RatioLayout
+            android:id="@+id/ratiolayout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            itcast:ratio="2.43"
+            android:padding="5dp">
+
+            <ImageView
+                android:id="@+id/item_icon"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:scaleType="fitXY"
+                android:src="@mipmap/ic_default"
+                 />
+
+        </itcast.zz16.googleplay.view.RatioLayout>
+
+        <TextView
+
+            android:id="@+id/item_txt"
+
+            style="@style/TitleStyle"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+
+            android:layout_below="@id/ratiolayout"
+
+            android:gravity="center_vertical"
+
+            android:paddingBottom="5dp"
+
+            android:paddingLeft="5dp"
+
+            android:paddingRight="5dp"
+
+            android:singleLine="true" />
+
+    </RelativeLayout>
+
+
+</FrameLayout>

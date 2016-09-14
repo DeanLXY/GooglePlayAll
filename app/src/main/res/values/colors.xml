@@ -1,0 +1,12 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="colorPrimary">#ffffff</color>
+    <color name="colorPrimaryDark">#dddddd</color>
+    <color name="colorAccent">#000000</color>
+
+    <color  name="indicatorcolor">#FF0084FF</color>
+    <color name="item_divider">#ffd7d7d7</color>
+    <color name="menu_bg_press">#cecece</color>
+    <color name="menu_bg_normal">#f0f1f3</color>
+    <color name="detail_screen_bg">#adadad</color>
+</resources>
