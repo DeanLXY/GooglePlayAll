@@ -10,7 +10,6 @@ import com.squareup.picasso.Picasso;
 
 import butterknife.Bind;
 import butterknife.ButterKnife;
-
 import itcast.zz16.googleplay.R;
 import itcast.zz16.googleplay.bean.AppInfo;
 import itcast.zz16.googleplay.utils.HttpHelper;

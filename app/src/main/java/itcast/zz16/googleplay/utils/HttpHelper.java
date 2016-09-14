@@ -35,6 +35,7 @@ public class HttpHelper {
      * @return
      */
     public String getSync() {
+        
         try {
             Response response = OkHttpUtils
                     .get()
