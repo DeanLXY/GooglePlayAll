@@ -77,7 +77,7 @@ public class ThreadPoolManager {
          *
          * @param runnable
          */
-        public void execture(Runnable runnable) {
+        public void execute(Runnable runnable) {
 
             if (threadPool == null) {
                 //corePoolSize : c初始化的线程数量

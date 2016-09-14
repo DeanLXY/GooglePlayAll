@@ -62,7 +62,7 @@ public class DownloadInfoDao extends AbstractDao<DownloadInfo, Long> {
 
     /** @inheritdoc */
     @Override
-    protected void bindValues(SQLiteStatement stmt, DownloadInfo entity) {
+    protected void  bindValues(SQLiteStatement stmt, DownloadInfo entity) {
         stmt.clearBindings();
  
         Long id = entity.getId();

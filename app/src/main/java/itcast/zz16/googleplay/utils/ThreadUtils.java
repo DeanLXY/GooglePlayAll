@@ -27,7 +27,7 @@ public class ThreadUtils {
      */
     public static  void runOnBackThread(Runnable runnable){
 //        new Thread(runnable).start();   // 线程池
-        ThreadPoolManager.getInstance().createThreadPool().execture(runnable);
+        ThreadPoolManager.getInstance().createThreadPool().execute(runnable);
     }
 
     private static Handler handler = new Handler();

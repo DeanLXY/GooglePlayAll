@@ -4,6 +4,7 @@ package itcast.zz16.googleplay.utils;
 import com.zhy.http.okhttp.OkHttpUtils;
 
 import java.io.IOException;
+import java.io.InputStream;
 
 import okhttp3.Response;
 
@@ -35,7 +36,7 @@ public class HttpHelper {
      * @return
      */
     public String getSync() {
-        
+
         try {
             Response response = OkHttpUtils
                     .get()
@@ -54,4 +55,56 @@ public class HttpHelper {
         return null;
     }
 
+
+    public HttpResult download() {
+        try {
+            Response response = OkHttpUtils
+                    .get()
+                    .url(url)
+                    .build()
+                    .execute();
+            HttpResult httpResult = null;
+            if (response.isSuccessful()) {
+                httpResult = new HttpResult(response, url);
+            }
+            return httpResult;
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+
+    public class HttpResult {
+        private InputStream mInputStream;
+
+        private String mStr;
+        private String mUrl;
+        private Response mResponse;
+
+        public HttpResult(Response mResponse, String mUrl) {
+
+            this.mResponse = mResponse;
+            this.mUrl = mUrl;
+            this.mInputStream = mResponse.body().byteStream();
+            try {
+                this.mStr = mResponse.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+
+        public int getCode() {
+            return mResponse.code();
+        }
+
+        public String getUrl() {
+            return this.mUrl;
+        }
+
+
+        public InputStream getInputStream() {
+            return this.mInputStream;
+        }
+    }
 }

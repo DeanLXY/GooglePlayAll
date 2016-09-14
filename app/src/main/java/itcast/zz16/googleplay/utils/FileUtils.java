@@ -23,6 +23,7 @@ public class FileUtils {
     public static final String CACHE = "cache";
     private static final String ROOT = "GooglePlayz16";//根目录
     public static final String ICON = "icon";
+    private static final String DOWNLOAD = "apk";//安装包管理
 
     // /mnt/sdcard/GooglePlayz16/cache
     // /data/data/包名/cache/cache
@@ -77,5 +78,9 @@ public class FileUtils {
      */
     public static  File getIcon(){
         return getDir(ICON);
+    }
+
+    public static File getDowload(){
+        return getDir(DOWNLOAD);
     }
 }

@@ -7,6 +7,7 @@ import com.squareup.picasso.Downloader;
 import com.squareup.picasso.OkHttpDownloader;
 import com.squareup.picasso.Picasso;
 
+import itcast.zz16.googleplay.db.DownloadDbHelper;
 import itcast.zz16.googleplay.utils.FileUtils;
 import itcast.zz16.googleplay.utils.ImageUtils;
 
@@ -41,6 +42,9 @@ public class BaseApp extends Application {
         instance = this;
 
         ImageUtils.init(this);
+
+        //初始化数据库
+        DownloadDbHelper.getInstance().init(this);
     }
 
 }
