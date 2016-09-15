@@ -4,7 +4,6 @@ import android.content.Intent;
 import android.net.Uri;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -122,6 +121,9 @@ public class DownloadManager {
     public synchronized void pause(AppInfo appInfo) {
         stopDownload(appInfo);
         DownloadInfo info = downloadInfoMap.get(appInfo.id);
+        if (info == null) {
+            info = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id);
+        }
         if (info != null) {// 修改下载状态
             info.setDownloadState(STATE_PAUSE);
             notifyDownloadStateChanged(info);
@@ -152,8 +154,8 @@ public class DownloadManager {
             installIntent.setDataAndType(Uri.parse("file://" + info.getPath()),
                     "application/vnd.android.package-archive");
             UIUtils.getContext().startActivity(installIntent);
+            notifyDownloadStateChanged(info);
         }
-        notifyDownloadStateChanged(info);
     }
 
     /**
@@ -220,16 +222,17 @@ public class DownloadManager {
             HttpHelper.HttpResult httpResult = null;
             InputStream inputStream = null;
             FileOutputStream fos = null;
-            if (info.getCurrentSize() == 0 || !file.exists() || file.length() != info.getAppSize()) {
-                LogUtil.d("%s","开始下载");
+            //如果还没有开始下载, 或者文件不存在 , 都需要重新下载
+            if (info.getCurrentSize() == 0 || !file.exists()) {
+                LogUtil.d("%s", "开始下载");
                 info.setCurrentSize(0L);
                 HttpHelper httpHelper = new HttpHelper(
                         HttpHelper.BASEURL + "/download?name=" + info.getUrl());
                 httpResult = httpHelper.download();
-                LogUtil.d("%s","开始下载");
+                LogUtil.d("%s", "开始下载");
             } else {
                 // 断点下载
-                LogUtil.d("%s","开始下载>>>断点下载");
+                LogUtil.d("%s", "开始下载>>>断点下载");
                 HttpHelper httpHelper = new HttpHelper(
                         HttpHelper.BASEURL + "/download?name=" + info.getUrl()
                                 + "&range=" + info.getCurrentSize());
@@ -247,8 +250,8 @@ public class DownloadManager {
                     fos = new FileOutputStream(file, true);
                     int count = -1;
                     byte[] buffer = new byte[4096];
-                    while ((count = inputStream.read(buffer)) != -1) {
-                        fos.write(buffer);
+                    while ((count = inputStream.read(buffer)) != -1&& info.getDownloadState() !=STATE_PAUSE) {
+                        fos.write(buffer,0,count);
                         fos.flush();
                         info.setCurrentSize(info.getCurrentSize() + count);
                         notifyDownloadProgressed(info);

@@ -12,6 +12,7 @@ import butterknife.ButterKnife;
 import butterknife.OnClick;
 import itcast.zz16.googleplay.R;
 import itcast.zz16.googleplay.bean.AppInfo;
+import itcast.zz16.googleplay.db.DownloadDbHelper;
 import itcast.zz16.googleplay.db.DownloadInfo;
 import itcast.zz16.googleplay.manager.DownloadManager;
 import itcast.zz16.googleplay.utils.ThreadUtils;
@@ -62,6 +63,10 @@ public class DetailBottomHolder extends BaseHolder<AppInfo> implements DownloadM
     @Override
     protected void refreshView(AppInfo appInfo) {
 //        startObserver();
+        if (DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id) != null) {
+            mState = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id).getDownloadState();
+            mProgress = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id).getCurrentSize().intValue();
+        }
         refreshState(mState, mProgress);
     }
 
@@ -118,7 +123,7 @@ public class DetailBottomHolder extends BaseHolder<AppInfo> implements DownloadM
         }
     }
 
-    @OnClick({R.id.bottom_favorites, R.id.bottom_share, R.id.progress_btn})
+    @OnClick({R.id.bottom_favorites, R.id.bottom_share, R.id.progress_btn, R.id.progress_layout})
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id.bottom_favorites:
@@ -127,9 +132,16 @@ public class DetailBottomHolder extends BaseHolder<AppInfo> implements DownloadM
             case R.id.bottom_share:
                 ToastUtils.showToast("分享");
                 break;
+            case R.id.progress_layout:
             case R.id.progress_btn:
 //                ToastUtils.showToast("下载");
-                DownloadManager.getInstance().addDownloadTask(data);
+                if (mState == DownloadManager.STATE_DOWNLOADING) {
+                    DownloadManager.getInstance().pause(data);
+                } else if (mState == DownloadManager.STATE_DOWNLOED) {
+                    DownloadManager.getInstance().install(data);
+                } else {
+                    DownloadManager.getInstance().addDownloadTask(data);
+                }
                 break;
         }
     }
