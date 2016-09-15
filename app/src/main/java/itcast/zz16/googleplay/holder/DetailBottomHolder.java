@@ -63,9 +63,11 @@ public class DetailBottomHolder extends BaseHolder<AppInfo> implements DownloadM
     @Override
     protected void refreshView(AppInfo appInfo) {
 //        startObserver();
-        if (DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id) != null) {
-            mState = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id).getDownloadState();
-            mProgress = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id).getCurrentSize().intValue();
+        DownloadInfo info = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id);
+        if (info != null) {
+            mState = info.getDownloadState();
+            mProgress = (int) (info.getCurrentSize().intValue()
+                                * 100 / info.getAppSize());
         }
         refreshState(mState, mProgress);
     }

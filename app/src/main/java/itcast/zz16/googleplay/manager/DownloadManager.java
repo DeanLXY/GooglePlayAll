@@ -75,10 +75,7 @@ public class DownloadManager {
 
     public void addDownloadTask(AppInfo appInfo) {
         //1.先从缓存中读取下载任务信息
-        DownloadInfo downloadInfo = downloadInfoMap.get(appInfo.id);
-        //2. 如果缓存中没有下载任务信息  就从 数据库中获取 任务信息
-        if (downloadInfo == null)
-            downloadInfo = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id);
+        DownloadInfo downloadInfo = checkDownloadInfo(appInfo);
         if (downloadInfo == null) {
             downloadInfo = new DownloadInfo().clone(appInfo);
             downloadInfoMap.put(appInfo.id, downloadInfo);
@@ -120,10 +117,7 @@ public class DownloadManager {
      */
     public synchronized void pause(AppInfo appInfo) {
         stopDownload(appInfo);
-        DownloadInfo info = downloadInfoMap.get(appInfo.id);
-        if (info == null) {
-            info = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id);
-        }
+        DownloadInfo info = checkDownloadInfo(appInfo);
         if (info != null) {// 修改下载状态
             info.setDownloadState(STATE_PAUSE);
             notifyDownloadStateChanged(info);
@@ -147,7 +141,7 @@ public class DownloadManager {
      */
     public synchronized void install(AppInfo appInfo) {
         stopDownload(appInfo);
-        DownloadInfo info = downloadInfoMap.get(appInfo.id);// 找出下载信息
+        DownloadInfo info = checkDownloadInfo(appInfo);
         if (info != null) {// 发送安装的意图
             Intent installIntent = new Intent(Intent.ACTION_VIEW);
             installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
@@ -156,6 +150,19 @@ public class DownloadManager {
             UIUtils.getContext().startActivity(installIntent);
             notifyDownloadStateChanged(info);
         }
+    }
+
+    /**
+     * 先从内存中获取下载信息 ,如果没有就去 数据库中获取
+     * @param appInfo
+     * @return
+     */
+    private DownloadInfo checkDownloadInfo(AppInfo appInfo) {
+        DownloadInfo info = downloadInfoMap.get(appInfo.id);// 找出下载信息
+        if (info == null) {
+            info = DownloadDbHelper.getInstance().getDownloadInfo(appInfo.id);
+        }
+        return info;
     }
 
     /**
