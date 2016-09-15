@@ -18,6 +18,7 @@ import itcast.zz16.googleplay.db.DownloadDbHelper;
 import itcast.zz16.googleplay.db.DownloadInfo;
 import itcast.zz16.googleplay.utils.HttpHelper;
 import itcast.zz16.googleplay.utils.IOUtils;
+import itcast.zz16.googleplay.utils.LogUtil;
 import itcast.zz16.googleplay.utils.UIUtils;
 
 /**
@@ -220,12 +221,15 @@ public class DownloadManager {
             InputStream inputStream = null;
             FileOutputStream fos = null;
             if (info.getCurrentSize() == 0 || !file.exists() || file.length() != info.getAppSize()) {
+                LogUtil.d("%s","开始下载");
                 info.setCurrentSize(0L);
                 HttpHelper httpHelper = new HttpHelper(
                         HttpHelper.BASEURL + "/download?name=" + info.getUrl());
                 httpResult = httpHelper.download();
+                LogUtil.d("%s","开始下载");
             } else {
                 // 断点下载
+                LogUtil.d("%s","开始下载>>>断点下载");
                 HttpHelper httpHelper = new HttpHelper(
                         HttpHelper.BASEURL + "/download?name=" + info.getUrl()
                                 + "&range=" + info.getCurrentSize());
@@ -260,10 +264,10 @@ public class DownloadManager {
                 }
 
                 // 判断进度是否和App相等
-                if (info.getCurrentSize() == info.getAppSize()) {
+                if (info.getCurrentSize().longValue() == info.getAppSize().longValue()) {
                     info.setDownloadState(STATE_DOWNLOED);
                     notifyDownloadStateChanged(info);
-                } else if (info.getDownloadState() == STATE_PAUSE) {
+                } else if (info.getDownloadState().intValue() == STATE_PAUSE) {
                     notifyDownloadStateChanged(info);
                 } else {
                     info.setDownloadState(STATE_ERROR);

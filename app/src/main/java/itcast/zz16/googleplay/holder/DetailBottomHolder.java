@@ -77,6 +77,7 @@ public class DetailBottomHolder extends BaseHolder<AppInfo> implements DownloadM
                 break;
             case DownloadManager.STATE_PAUSE:
                 progressLayout.setVisibility(View.VISIBLE);
+                pbLoadProcess.setVisibility(View.VISIBLE);
                 pbLoadProcess.setProgress(progress);
                 progressBtn.setVisibility(View.GONE);
                 tvLoadProcess.setVisibility(View.VISIBLE);
@@ -90,13 +91,16 @@ public class DetailBottomHolder extends BaseHolder<AppInfo> implements DownloadM
                 break;
             case DownloadManager.STATE_WAITING:
                 progressLayout.setVisibility(View.VISIBLE);
+                pbLoadProcess.setVisibility(View.VISIBLE);
                 pbLoadProcess.setProgress(progress);
+
                 tvLoadProcess.setVisibility(View.VISIBLE);
                 tvLoadProcess.setText(UIUtils.getString(R.string.app_state_waiting));
                 progressBtn.setVisibility(View.GONE);
                 break;
             case DownloadManager.STATE_DOWNLOADING:
                 progressLayout.setVisibility(View.VISIBLE);
+                pbLoadProcess.setVisibility(View.VISIBLE);
                 pbLoadProcess.setProgress(progress);
                 tvLoadProcess.setVisibility(View.VISIBLE);
                 tvLoadProcess.setText(progress + "%");

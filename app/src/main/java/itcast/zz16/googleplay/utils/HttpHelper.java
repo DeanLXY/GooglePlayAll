@@ -58,18 +58,21 @@ public class HttpHelper {
 
     public HttpResult download() {
         try {
+            LogUtil.d("%s","download");
             Response response = OkHttpUtils
                     .get()
                     .url(url)
                     .build()
                     .execute();
             HttpResult httpResult = null;
+            LogUtil.d("%s","请求"+response.code());
             if (response.isSuccessful()) {
                 httpResult = new HttpResult(response, url);
             }
             return httpResult;
         } catch (IOException e) {
             e.printStackTrace();
+            LogUtil.e("%s","download>>>"+e.getMessage());
         }
         return null;
     }
@@ -86,13 +89,10 @@ public class HttpHelper {
 
             this.mResponse = mResponse;
             this.mUrl = mUrl;
-            this.mInputStream = mResponse.body().byteStream();
-            try {
-                this.mStr = mResponse.body().string();
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
+//            this.mInputStream = mResponse.body().byteStream();
+
         }
+
 
         public int getCode() {
             return mResponse.code();
@@ -104,7 +104,17 @@ public class HttpHelper {
 
 
         public InputStream getInputStream() {
+            this.mInputStream = mResponse.body().byteStream();
             return this.mInputStream;
+        }
+
+        public String getString(){
+            try {
+                this.mStr = mResponse.body().string();
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+            return mStr;
         }
     }
 }
