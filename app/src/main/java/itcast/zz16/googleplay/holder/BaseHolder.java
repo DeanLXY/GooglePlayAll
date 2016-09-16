@@ -49,4 +49,8 @@ public abstract class BaseHolder<Data> {
      * 将数据显示到对应的控件上
      */
     protected abstract void refreshView(Data data);
+
+    public void recycle() {
+
+    }
 }

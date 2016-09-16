@@ -9,4 +9,5 @@
     <color name="menu_bg_press">#cecece</color>
     <color name="menu_bg_normal">#f0f1f3</color>
     <color name="detail_screen_bg">#adadad</color>
+    <color name="progress">#0294f0</color>
 </resources>

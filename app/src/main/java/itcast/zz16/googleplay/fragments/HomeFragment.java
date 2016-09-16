@@ -38,6 +38,7 @@ public class HomeFragment extends BaseFragment {
 
     private List<AppInfo> datas;
     private List<String> pictures;
+    private BaseListAdapter baseListAdapter;
 
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
@@ -58,7 +59,7 @@ public class HomeFragment extends BaseFragment {
     @Override
     protected View createSuccessView() {
         SwipeRefreshLayout refreshLayout = new SwipeRefreshLayout(UIUtils.getContext());
-        refreshLayout.setColorSchemeColors(Color.RED,Color.YELLOW,Color.GREEN,Color.BLUE);
+        refreshLayout.setColorSchemeColors(Color.RED, Color.YELLOW, Color.GREEN, Color.BLUE);
         //停止刷新
 //        refreshLayout.setRefreshing(false);
 
@@ -71,28 +72,35 @@ public class HomeFragment extends BaseFragment {
         listView.addHeaderView(homePictureHolder.getContentView());
 
         // 引用传递
-        listView.setAdapter(new BaseListAdapter(datas,listView){
-
-            /**
-             * 加载更多数据
-             * @return
-             */
+        /**
+         * 加载更多数据
+         * @return
+         */ // page =1  page= 2
+//                page++
+        baseListAdapter = new BaseListAdapter(datas, listView) {
             @Override
             protected List<AppInfo> loadMore() {
                 HomeProtocol protocol = new HomeProtocol();
-               List<AppInfo> newDatas = protocol.load(datas.size());
-
-                // page =1  page= 2
-//                page++
+                List<AppInfo> newDatas = protocol.load(datas.size());
                 return newDatas;
             }
-
-
-        });
+        };
+        listView.setAdapter(baseListAdapter);
         return refreshLayout;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        if (baseListAdapter != null)
+            baseListAdapter.stopObserver();
+    }
 
 
-
+    @Override
+    public void onResume() {
+        super.onResume();
+        if (baseListAdapter != null)
+            baseListAdapter.startObserver();
+    }
 }

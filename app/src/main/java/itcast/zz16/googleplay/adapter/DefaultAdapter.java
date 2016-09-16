@@ -7,6 +7,7 @@ import android.widget.AdapterView;
 import android.widget.BaseAdapter;
 import android.widget.ListView;
 
+import java.util.ArrayList;
 import java.util.List;
 
 import itcast.zz16.googleplay.holder.BaseHolder;
@@ -26,19 +27,28 @@ import itcast.zz16.googleplay.utils.ThreadUtils;
  * <p>
  * ======================
  */
-public abstract class DefaultAdapter<T> extends BaseAdapter implements AdapterView.OnItemClickListener {
+public abstract class DefaultAdapter<T> extends BaseAdapter implements AdapterView.OnItemClickListener, AbsListView.RecyclerListener {
 
     private static final int ITEM_MORE = 0;//加载更多
     private static final int ITEM_DEFAULT = 1; //默认条目类型
+    private final ArrayList<BaseHolder> mDisplayHolders;
     protected List<T> datas;
     private ListView listView;
     private MoreHolder moreHolder;
 
     public DefaultAdapter(List<T> datas, ListView listView) {
+        mDisplayHolders = new ArrayList<BaseHolder>();
         this.datas = datas;
         this.listView = listView;
         listView.setOnItemClickListener(this);
-     }
+        listView.setRecyclerListener(this);
+    }
+
+    public List<BaseHolder> getDisplayHolders() {
+        synchronized (mDisplayHolders) {
+            return new ArrayList<BaseHolder>(mDisplayHolders);
+        }
+    }
 
     @Override
     public void onItemClick(AdapterView<?> parent, View view, int position, long id) {
@@ -128,6 +138,7 @@ public abstract class DefaultAdapter<T> extends BaseAdapter implements AdapterVi
         }
 
 
+        mDisplayHolders.add(holder);
         //调用MoreHolder的getContentView 就会显示 加载更多的条目
         return holder.getContentView(); //3.返回view对象
     }
@@ -190,8 +201,6 @@ public abstract class DefaultAdapter<T> extends BaseAdapter implements AdapterVi
         return null;
     }
 
-    ;
-
     /**
      * 获取 viewholder对象
      *
@@ -199,7 +208,19 @@ public abstract class DefaultAdapter<T> extends BaseAdapter implements AdapterVi
      */
     protected abstract BaseHolder<T> getHolder();
 
-
+    @Override
+    public void onMovedToScrapHeap(View view) {
+        if (null != view) {
+            Object tag = view.getTag();
+            if (tag instanceof BaseHolder) {
+                BaseHolder holder = (BaseHolder) tag;
+                synchronized (mDisplayHolders) {
+                    mDisplayHolders.remove(holder);
+                }
+                holder.recycle();
+            }
+        }
+    }
 }
 
 

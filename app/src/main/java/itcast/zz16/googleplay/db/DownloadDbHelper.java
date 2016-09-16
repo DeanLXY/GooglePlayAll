@@ -1,10 +1,10 @@
 package itcast.zz16.googleplay.db;
 
 import android.content.Context;
-import android.content.Intent;
 import android.database.sqlite.SQLiteDatabase;
-import android.net.Uri;
 import android.support.annotation.NonNull;
+
+import de.greenrobot.dao.query.QueryBuilder;
 
 /**
  * ====================
@@ -19,18 +19,14 @@ import android.support.annotation.NonNull;
  * <p>
  * ======================
  */
-import de.greenrobot.dao.query.QueryBuilder;
-import itcast.zz16.googleplay.bean.AppInfo;
-import itcast.zz16.googleplay.utils.UIUtils;
 
 public class DownloadDbHelper {
 
     private static DownloadInfoDao downloadInfoDao;
+    private static DownloadDbHelper instance = new DownloadDbHelper();
 
     private DownloadDbHelper() {
     }
-
-    private static DownloadDbHelper instance = new DownloadDbHelper();
 
     public static DownloadDbHelper getInstance() {
         return instance;
@@ -79,35 +75,4 @@ public class DownloadDbHelper {
         }
         return builder.list().get(0);
     }
-
-    /**
-     * 安装应用
-     */
-    public synchronized void install(AppInfo appInfo) {
-        stopDownload(appInfo);
-        DownloadInfo info = getDownloadInfo(appInfo.id);// 找出下载信息
-        if (info != null) {// 发送安装的意图
-            Intent installIntent = new Intent(Intent.ACTION_VIEW);
-            installIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            installIntent.setDataAndType(Uri.parse("file://" + info.getPath()),
-                    "application/vnd.android.package-archive");
-            UIUtils.getContext().startActivity(installIntent);
-        }
-        notifyDownloadStateChanged(info);
-    }
-
-    /**
-     * 停止任务
-     *
-     * @param appInfo
-     */
-    private void stopDownload(AppInfo appInfo) {
-
-    }
-
-    public void notifyDownloadStateChanged(DownloadInfo info) {
-
-    }
-
-
 }

@@ -62,7 +62,7 @@
                     android:layout_height="27dp"
                     android:layout_centerHorizontal="true"
 
-                    android:background="@mipmap/ic_download" />
+                    />
 
 
                 <TextView
@@ -83,7 +83,6 @@
 
                     android:singleLine="true"
 
-                    android:text="@string/action_download"
                     android:textColor="#ff7a7a7a"
 
                     android:textSize="12dp"

@@ -58,7 +58,7 @@ public class DetailFragment extends BaseFragment {
     public void onActivityCreated(@Nullable Bundle savedInstanceState) {
         super.onActivityCreated(savedInstanceState);
         Bundle bundle = getArguments();
-        packageName =   bundle.getString("packageName");
+        packageName = bundle.getString("packageName");
         show();//请求网络数据
         setHasOptionsMenu(true);// 使用菜单
 
@@ -118,7 +118,8 @@ public class DetailFragment extends BaseFragment {
     @Override
     public void onDestroyView() {
         super.onDestroyView();
-        detailBottomHolder.stopObserver();
+        if (detailBottomHolder != null)
+            detailBottomHolder.stopObserver();
     }
 
     @Override

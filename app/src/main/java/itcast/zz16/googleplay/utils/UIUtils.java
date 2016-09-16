@@ -112,4 +112,13 @@ public class UIUtils {
     public static Drawable getDrawable(int id) {
         return getResources().getDrawable(id);
     }
+
+    /**
+     * id----color
+     * @param id
+     * @return
+     */
+    public static int getColor(int id) {
+        return getResources().getColor(id);
+    }
 }
