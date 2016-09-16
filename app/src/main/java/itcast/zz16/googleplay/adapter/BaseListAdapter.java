@@ -7,6 +7,7 @@ import java.util.List;
 
 import itcast.zz16.googleplay.DetailActivity;
 import itcast.zz16.googleplay.bean.AppInfo;
+import itcast.zz16.googleplay.db.DownloadDbHelper;
 import itcast.zz16.googleplay.db.DownloadInfo;
 import itcast.zz16.googleplay.holder.BaseHolder;
 import itcast.zz16.googleplay.holder.BaseListHolder;

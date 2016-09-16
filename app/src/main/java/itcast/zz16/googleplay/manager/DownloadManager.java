@@ -71,7 +71,7 @@ public class DownloadManager {
     private static Map<Long, DownloadTask> taskMap = new HashMap<>();
     private static Map<Long, DownloadInfo> downloadInfoMap = new HashMap<>();
     //下载管理
-    private List<DownloadObserver> mObservers = new ArrayList<DownloadObserver>();
+    public List<DownloadObserver> mObservers = new ArrayList<DownloadObserver>();
 
     public void addDownloadTask(AppInfo appInfo) {
         //1.先从缓存中读取下载任务信息

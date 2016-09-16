@@ -16,6 +16,7 @@ import itcast.zz16.googleplay.db.DownloadDbHelper;
 import itcast.zz16.googleplay.db.DownloadInfo;
 import itcast.zz16.googleplay.manager.DownloadManager;
 import itcast.zz16.googleplay.utils.HttpHelper;
+import itcast.zz16.googleplay.utils.LogUtil;
 import itcast.zz16.googleplay.utils.ThreadUtils;
 import itcast.zz16.googleplay.utils.UIUtils;
 import itcast.zz16.googleplay.view.ProgressArc;
@@ -91,6 +92,7 @@ public class BaseListHolder extends BaseHolder<AppInfo> {
     public void refreshState(int state, float progress) {
         mState = state;
         mProgress = progress;
+        LogUtil.d("%s", "状态>>" + mState);
         switch (mState) {
             case DownloadManager.STATE_NONE:
                 mProgressArc.seForegroundResource(R.mipmap.ic_download);

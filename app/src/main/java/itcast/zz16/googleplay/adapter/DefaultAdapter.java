@@ -137,8 +137,8 @@ public abstract class DefaultAdapter<T> extends BaseAdapter implements AdapterVi
                 break;
         }
 
-
         mDisplayHolders.add(holder);
+
         //调用MoreHolder的getContentView 就会显示 加载更多的条目
         return holder.getContentView(); //3.返回view对象
     }
