@@ -41,3 +41,6 @@ captures/
 # Keystore files
 *.jks
 
+.idea/dbnavigator.xml
+.idea/sonarIssues.xml
+.idea/sonarlint/
